@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eduplan.eduplan.model.Evaluacion;
@@ -23,30 +24,55 @@ public class EvaluacionController {
     @Autowired
     private EvaluacionService service;
 
-    @GetMapping("/curso/{id}")
-    public List<Evaluacion> listar(@PathVariable Long id) {
-        return service.listarPorCurso(id);
+    // Listar evaluaciones por curso
+    @GetMapping("/curso/{cursoId}")
+    public List<Evaluacion> listarPorCurso(@PathVariable Long cursoId) {
+        return service.listarPorCurso(cursoId);
+    }
+    
+    // Listar evaluaciones de un docente
+    @GetMapping("/docente/{docenteId}")
+    public List<Evaluacion> listarPorDocente(@PathVariable Integer docenteId) {
+        return service.listarPorDocente(docenteId);
+    }
+    
+    // Listar evaluaciones que ve un alumno
+    @GetMapping("/alumno/{alumnoId}")
+    public List<Evaluacion> listarPorAlumno(@PathVariable Integer alumnoId) {
+        return service.listarPorAlumno(alumnoId);
     }
 
+    // Crear evaluación
     @PostMapping
-    public ResponseEntity<?> crear(@RequestBody Evaluacion eval) {
+    public ResponseEntity<?> crear(@RequestBody Evaluacion eval, @RequestParam Integer docenteId) {
         try {
-            return ResponseEntity.ok(service.crear(eval));
+            return ResponseEntity.ok(service.crear(eval, docenteId));
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(403).body(e.getMessage());
         }
     }
 
+    // Editar evaluación
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable Long id, @RequestBody Evaluacion eval) {
+    public ResponseEntity<?> editar(@PathVariable Long id, @RequestBody Evaluacion eval, @RequestParam Integer docenteId) {
         eval.setId(id);
-        return ResponseEntity.ok(service.editar(eval));
+        try {
+            return ResponseEntity.ok(service.editar(eval, docenteId));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(403).body(e.getMessage());
+        }
     }
 
+    // Eliminar evaluación
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable Long id) {
-        service.eliminar(id);
-        return ResponseEntity.ok().build();
-        
+    public ResponseEntity<?> eliminar(@PathVariable Long id, @RequestParam Integer docenteId) {
+        try {
+            service.eliminar(id, docenteId);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(403).body(e.getMessage());
+        }
     }
 }

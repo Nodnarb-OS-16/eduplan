@@ -12,22 +12,28 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "evaluacion")
-public class Evaluacion {
+@Table(name = "tarea")
+public class Tarea {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    private String titulo;
+    
+    private String descripcion;
+    
     private LocalDate fecha;
     
     private LocalTime hora;
     
-    private String descripcion;
+    @ManyToOne
+    @JoinColumn(name = "alumno_id")
+    private Usuario alumno;
     
     @ManyToOne
-    @JoinColumn(name = "curso_asignatura_docente_id")
-    private CursoAsignaturaDocente cursoAsignaturaDocente;
+    @JoinColumn(name = "curso_id")
+    private Curso curso;
 
     // Getters y Setters
     
@@ -37,6 +43,22 @@ public class Evaluacion {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public LocalDate getFecha() {
@@ -55,19 +77,19 @@ public class Evaluacion {
         this.hora = hora;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public Usuario getAlumno() {
+        return alumno;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setAlumno(Usuario alumno) {
+        this.alumno = alumno;
     }
 
-    public CursoAsignaturaDocente getCursoAsignaturaDocente() {
-        return cursoAsignaturaDocente;
+    public Curso getCurso() {
+        return curso;
     }
 
-    public void setCursoAsignaturaDocente(CursoAsignaturaDocente cursoAsignaturaDocente) {
-        this.cursoAsignaturaDocente = cursoAsignaturaDocente;
+    public void setCurso(Curso curso) {
+        this.curso = curso;
     }
 }

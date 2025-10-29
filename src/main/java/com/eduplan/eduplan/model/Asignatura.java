@@ -7,16 +7,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "curso")
-public class Curso {
+@Table(name = "asignatura")
+public class Asignatura {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     private String nombre;
-    
-    private Integer nivel;
 
     // Getters y Setters
     
@@ -34,13 +32,5 @@ public class Curso {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public Integer getNivel() {
-        return nivel;
-    }
-
-    public void setNivel(Integer nivel) {
-        this.nivel = nivel;
     }
 }
