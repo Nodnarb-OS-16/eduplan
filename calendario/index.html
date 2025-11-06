@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduPlan - Evaluaciones</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Login -->
+  <div class="login" id="login">
+    <h1>EduPlan</h1>
+    <h2>Iniciar sesión</h2>
+    <input type="email" id="correo" placeholder="Correo electrónico"><br>
+    <input type="password" id="clave" placeholder="Contraseña"><br>
+    <button onclick="iniciarSesion()">Entrar</button>
+  </div>
+
+  <!-- Info de usuario -->
+  <div id="infoUsuario" class="hidden usuario-info"></div>
+
+  <!-- Botón cerrar sesión -->
+  <button id="logout" class="hidden" onclick="cerrarSesion()">Cerrar sesión</button>
+
+  <!-- Título del calendario -->
+  <h1 class="hidden" id="tituloCalendario">EduPlan - Calendario</h1>
+
+  <!-- Panel del profesor -->
+  <div id="panelProfesor" class="hidden">
+    <div class="formulario">
+      <h3>Agregar evaluación</h3>
+      <input type="text" id="asignatura" placeholder="Asignatura">
+      <input type="text" id="evaluacion" placeholder="Descripción de la evaluación">
+      <select id="dia">
+        <option disabled selected>Día</option>
+        <option>Lunes</option>
+        <option>Martes</option>
+        <option>Miércoles</option>
+        <option>Jueves</option>
+        <option>Viernes</option>
+      </select>
+      <select id="hora">
+        <option disabled selected>Hora</option>
+        <option>08:00</option>
+        <option>08:30</option>
+        <option>09:00</option>
+        <option>09:45</option>
+        <option>10:30</option>
+        <option>11:15</option>
+        <option>12:00</option>
+        <option>13:00</option>
+        <option>14:00</option>
+        <option>15:15</option>
+        <option>16:00</option>
+      </select>
+      <button onclick="guardarPrueba()">Guardar evaluación</button>
+    </div>
+  </div>
+
+  <!-- Panel para eliminar evaluaciones del profesor -->
+  <div id="panelEliminar" class="hidden formulario">
+    <h3>Eliminar evaluación</h3>
+    <select id="evaluacionesProfesor">
+      <option disabled selected>Selecciona una evaluación</option>
+    </select>
+    <button onclick="eliminarEvaluacionSeleccionada()">Eliminar</button>
+  </div>
+
+  <!-- Panel del alumno -->
+  <div id="panelAlumno" class="hidden">
+    <div class="formulario">
+      <h3>Agregar tarea</h3>
+      <input type="text" id="tareaAlumno" placeholder="Descripción de la tarea">
+      <select id="diaAlumno">
+        <option disabled selected>Día</option>
+        <option>Lunes</option>
+        <option>Martes</option>
+        <option>Miércoles</option>
+        <option>Jueves</option>
+        <option>Viernes</option>
+      </select>
+      <select id="horaAlumno">
+        <option disabled selected>Hora</option>
+        <option>08:00</option>
+        <option>08:30</option>
+        <option>09:00</option>
+        <option>09:45</option>
+        <option>10:30</option>
+        <option>11:15</option>
+        <option>12:00</option>
+        <option>13:00</option>
+        <option>14:00</option>
+        <option>15:15</option>
+        <option>16:00</option>
+      </select>
+      <button onclick="guardarTarea()">Guardar tarea</button>
+    </div>
+  </div>
+
+  <!-- Panel para eliminar tareas del alumno -->
+  <div id="panelEliminarAlumno" class="hidden formulario">
+    <h3>Eliminar tarea</h3>
+    <select id="tareasAlumno">
+      <option disabled selected>Selecciona una tarea</option>
+    </select>
+    <button onclick="eliminarTareaSeleccionada()">Eliminar</button>
+  </div>
+
+  <!-- Calendario -->
+  <div class="calendario hidden" id="calendario"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
