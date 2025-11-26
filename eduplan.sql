@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-10-2025 a las 21:43:15
+-- Tiempo de generación: 26-11-2025 a las 20:12:59
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `eduplan`
 --
-CREATE DATABASE IF NOT EXISTS `eduplan` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `eduplan`;
 
 -- --------------------------------------------------------
 
@@ -74,7 +72,15 @@ INSERT INTO `curso` (`id`, `nombre`, `nivel`) VALUES
 (5, '5° Básico A', 5),
 (6, '6° Básico A', 6),
 (7, '7° Básico A', 7),
-(8, '8° Básico A', 8);
+(8, '8° Básico A', 8),
+(9, '1° Básico B', 1),
+(10, '2° Básico B', 2),
+(11, '3° Básico B', 3),
+(12, '4° Básico B', 4),
+(13, '5° Básico B', 5),
+(14, '6° Básico B', 6),
+(15, '7° Básico B', 7),
+(16, '8° Básico B', 8);
 
 -- --------------------------------------------------------
 
@@ -142,7 +148,12 @@ CREATE TABLE `evaluacion` (
 INSERT INTO `evaluacion` (`id`, `fecha`, `hora`, `descripcion`, `curso_asignatura_docente_id`) VALUES
 (1, '2025-11-05', '09:00:00', 'Prueba de Números hasta el 20', 1),
 (2, '2025-11-05', '14:00:00', 'Control de Lectura: \"El Principito\"', 2),
-(3, '2025-11-08', '10:00:00', 'Evaluación de Sumas y Restas', 1);
+(3, '2025-11-08', '10:00:00', 'Evaluación de Sumas y Restas', 1),
+(6, '2025-10-29', '10:30:00', 'Unidad 3: Division', 1),
+(8, '2025-11-01', '10:30:00', 'Unidad 3: Ecuaciones 2do Grado', 1),
+(9, '2025-10-30', '09:00:00', 'Unidad 3: Logaritmo', 1),
+(10, '2025-11-03', '09:00:00', 'Fisica: Velocidad y Rapidez', 1),
+(11, '2025-11-04', '12:00:00', 'Unidad 2: Potencia y raices', 1);
 
 -- --------------------------------------------------------
 
@@ -185,8 +196,10 @@ CREATE TABLE `tarea` (
 --
 
 INSERT INTO `tarea` (`id`, `titulo`, `descripcion`, `fecha`, `hora`, `alumno_id`, `curso_id`) VALUES
-(1, 'Estudiar tablas de multiplicar', 'Repasar tablas del 1 al 5', '2025-11-04', '15:00:00', 2, 1),
-(2, 'Leer capítulo 3', 'Leer y hacer resumen del capítulo 3 del libro', '2025-11-06', '09:00:00', 2, 1);
+(4, 'Repaso de Historia', '', '2025-11-03', '09:45:00', 2, 1),
+(5, 'potencia', '', '2025-11-04', '08:30:00', 2, 1),
+(6, 'raice', '', '2025-11-04', '08:00:00', 2, 1),
+(7, 'gghgh', '', '2025-11-04', '08:30:00', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -209,8 +222,9 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `nombre`, `apellido_paterno`, `apellido_materno`, `correo_electronico`, `contraseña`, `id_Rol`) VALUES
-(1, '', '', '', 'profesor@gmail.com', '123', 2),
-(2, '', '', '', 'alumno@gmail.com', '321', 3);
+(0, 'Samuel', 'Tapia', 'Tapia', 'director@gmail.com', '12345', 1),
+(1, 'Javier', 'Rojas', 'Rojas', 'profesor@gmail.com', '123', 2),
+(2, 'Jorge', 'Perez', 'Perez', 'alumno@gmail.com', '321', 3);
 
 --
 -- Índices para tablas volcadas
@@ -292,7 +306,7 @@ ALTER TABLE `asignatura`
 -- AUTO_INCREMENT de la tabla `curso`
 --
 ALTER TABLE `curso`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `curso_alumno`
@@ -310,13 +324,13 @@ ALTER TABLE `curso_asignatura_docente`
 -- AUTO_INCREMENT de la tabla `evaluacion`
 --
 ALTER TABLE `evaluacion`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `tarea`
 --
 ALTER TABLE `tarea`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Restricciones para tablas volcadas
