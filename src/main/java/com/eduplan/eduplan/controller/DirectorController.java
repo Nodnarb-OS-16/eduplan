@@ -172,6 +172,17 @@ public class DirectorController {
         }
     }
 
+    @GetMapping("/asignaciones")
+    public ResponseEntity<?> listarTodasAsignaciones(@RequestParam Integer directorId) {
+        try {
+            validarDirector(directorId);
+            List<CursoAsignaturaDocente> asignaciones = directorService.listarTodasLasAsignaciones();
+            return ResponseEntity.ok(asignaciones);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(403).body(e.getMessage());
+        }
+    }
+
     @PostMapping("/asignaciones")
     public ResponseEntity<?> asignarDocenteACursoAsignatura(
             @RequestBody Map<String, Object> request,

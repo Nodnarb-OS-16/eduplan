@@ -46,9 +46,6 @@ public class DirectorService {
 
     // ============ VALIDACIONES ============
 
-    /**
-     * Valida que un usuario sea Director
-     */
     private void validarDirector(Integer directorId) {
         Usuario director = usuarioRepo.findById(directorId)
             .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -58,9 +55,7 @@ public class DirectorService {
         }
     }
 
-    /**
-     * Valida que un correo no esté registrado
-     */
+
     private void validarCorreoUnico(String correo, Integer excludeId) {
         List<Usuario> usuarios = usuarioRepo.findAll();
         boolean correoExiste = usuarios.stream()

@@ -2,6 +2,8 @@ package com.eduplan.eduplan.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -10,7 +12,9 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "usuario")
 public class Usuario {
+    
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String nombre;
@@ -31,7 +35,7 @@ public class Usuario {
     @JoinColumn(name = "id_Rol")
     private Rol rol;
 
-    // Getter y Setter
+    // Getters y Setters
     
     public Integer getId() {
         return id;
@@ -88,6 +92,4 @@ public class Usuario {
     public void setRol(Rol rol) {
         this.rol = rol;
     }
-
-
 }
