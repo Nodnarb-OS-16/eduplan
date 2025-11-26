@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-11-2025 a las 20:12:59
+-- Tiempo de generación: 26-11-2025 a las 23:56:56
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -47,6 +47,26 @@ INSERT INTO `asignatura` (`id`, `nombre`) VALUES
 (8, 'Música'),
 (10, 'Orientación'),
 (9, 'Tecnología');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `configuracion`
+--
+
+CREATE TABLE `configuracion` (
+  `id` bigint(20) NOT NULL,
+  `clave` varchar(100) NOT NULL,
+  `valor` varchar(255) NOT NULL,
+  `descripcion` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `configuracion`
+--
+
+INSERT INTO `configuracion` (`id`, `clave`, `valor`, `descripcion`) VALUES
+(1, 'max_evaluaciones_por_dia', '2', 'Número máximo de evaluaciones permitidas por día en un curso');
 
 -- --------------------------------------------------------
 
@@ -125,7 +145,9 @@ INSERT INTO `curso_asignatura_docente` (`id`, `curso_id`, `asignatura_id`, `doce
 (2, 1, 2, 1, 2025),
 (3, 2, 1, 1, 2025),
 (4, 2, 2, 1, 2025),
-(5, 3, 1, 1, 2025);
+(5, 3, 1, 1, 2025),
+(6, 1, 9, 1, 2025),
+(7, 4, 5, 4, 2025);
 
 -- --------------------------------------------------------
 
@@ -199,7 +221,7 @@ INSERT INTO `tarea` (`id`, `titulo`, `descripcion`, `fecha`, `hora`, `alumno_id`
 (4, 'Repaso de Historia', '', '2025-11-03', '09:45:00', 2, 1),
 (5, 'potencia', '', '2025-11-04', '08:30:00', 2, 1),
 (6, 'raice', '', '2025-11-04', '08:00:00', 2, 1),
-(7, 'gghgh', '', '2025-11-04', '08:30:00', 2, 1);
+(8, 'Desayuno', '', '2025-11-26', '08:00:00', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -222,9 +244,10 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `nombre`, `apellido_paterno`, `apellido_materno`, `correo_electronico`, `contraseña`, `id_Rol`) VALUES
-(0, 'Samuel', 'Tapia', 'Tapia', 'director@gmail.com', '12345', 1),
 (1, 'Javier', 'Rojas', 'Rojas', 'profesor@gmail.com', '123', 2),
-(2, 'Jorge', 'Perez', 'Perez', 'alumno@gmail.com', '321', 3);
+(2, 'Jorge', 'Perez', 'Perez', 'alumno@gmail.com', '321', 3),
+(3, 'Samuel', 'Tapia', 'Tapia', 'director@gmail.com', '12345', 1),
+(4, 'Pablo', 'Miranda', 'Miranda', 'pabloMiranda@gmail.com', '123', 2);
 
 --
 -- Índices para tablas volcadas
@@ -236,6 +259,13 @@ INSERT INTO `usuario` (`id`, `nombre`, `apellido_paterno`, `apellido_materno`, `
 ALTER TABLE `asignatura`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `nombre` (`nombre`);
+
+--
+-- Indices de la tabla `configuracion`
+--
+ALTER TABLE `configuracion`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `clave` (`clave`);
 
 --
 -- Indices de la tabla `curso`
@@ -250,7 +280,8 @@ ALTER TABLE `curso_alumno`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unico_curso_alumno_anio` (`curso_id`,`alumno_id`,`anio_escolar`),
   ADD KEY `idx_curso` (`curso_id`),
-  ADD KEY `idx_alumno` (`alumno_id`);
+  ADD KEY `idx_alumno` (`alumno_id`),
+  ADD KEY `idx_anio_escolar` (`anio_escolar`);
 
 --
 -- Indices de la tabla `curso_asignatura_docente`
@@ -260,7 +291,8 @@ ALTER TABLE `curso_asignatura_docente`
   ADD UNIQUE KEY `unico_curso_asignatura_anio` (`curso_id`,`asignatura_id`,`anio_escolar`),
   ADD KEY `idx_curso` (`curso_id`),
   ADD KEY `idx_asignatura` (`asignatura_id`),
-  ADD KEY `idx_docente` (`docente_id`);
+  ADD KEY `idx_docente` (`docente_id`),
+  ADD KEY `idx_anio_escolar` (`anio_escolar`);
 
 --
 -- Indices de la tabla `evaluacion`
@@ -268,7 +300,8 @@ ALTER TABLE `curso_asignatura_docente`
 ALTER TABLE `evaluacion`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idx_fecha` (`fecha`),
-  ADD KEY `idx_cad` (`curso_asignatura_docente_id`);
+  ADD KEY `idx_cad` (`curso_asignatura_docente_id`),
+  ADD KEY `idx_fecha_hora` (`fecha`,`hora`);
 
 --
 -- Indices de la tabla `rol`
@@ -290,7 +323,8 @@ ALTER TABLE `tarea`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_Rol` (`id_Rol`);
+  ADD KEY `id_Rol` (`id_Rol`),
+  ADD KEY `idx_correo` (`correo_electronico`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -301,6 +335,12 @@ ALTER TABLE `usuario`
 --
 ALTER TABLE `asignatura`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `configuracion`
+--
+ALTER TABLE `configuracion`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `curso`
@@ -318,7 +358,7 @@ ALTER TABLE `curso_alumno`
 -- AUTO_INCREMENT de la tabla `curso_asignatura_docente`
 --
 ALTER TABLE `curso_asignatura_docente`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `evaluacion`
@@ -330,7 +370,13 @@ ALTER TABLE `evaluacion`
 -- AUTO_INCREMENT de la tabla `tarea`
 --
 ALTER TABLE `tarea`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
